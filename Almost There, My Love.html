@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Almost There, My Love</title>
+<link href="https://fonts.googleapis.com/css2?family=Pacifico&family=Quicksand:wght@500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{--ink:#6b2f47;--pink:#e8527a;--soft:#ffd1dc;--card:rgba(255,255,255,.72);}
+*{box-sizing:border-box;}
+html,body{margin:0;min-height:100%;}
+body{
+  font-family:'Quicksand',system-ui,sans-serif;color:var(--ink);
+  background:linear-gradient(160deg,#ffe4ec,#ffd1dc 45%,#f1d5ff);background-attachment:fixed;
+  padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px);
+  overflow-x:hidden;
+}
+.heart{position:fixed;bottom:-40px;z-index:0;color:var(--pink);opacity:.5;animation:up linear forwards;pointer-events:none;}
+@keyframes up{to{transform:translateY(-115vh) rotate(25deg);opacity:0;}}
+.wrap{position:relative;z-index:1;max-width:460px;margin:0 auto;padding:44px 20px 56px;text-align:center;}
+.eyebrow{font-weight:700;font-size:13px;letter-spacing:2px;text-transform:uppercase;color:#b0527a;}
+h1{font-family:'Pacifico',cursive;font-weight:400;font-size:46px;line-height:1.15;margin:12px 0 6px;color:var(--pink);}
+.sub{font-size:16px;margin:0 0 26px;color:#8a4a62;}
+.timer{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:26px;}
+.unit{background:var(--card);border-radius:20px;padding:14px 4px 10px;box-shadow:0 8px 20px rgba(232,82,122,.18);border:2px solid #fff;}
+.num{font-size:34px;font-weight:700;color:var(--pink);}
+.lbl{font-size:11px;letter-spacing:1.5px;text-transform:uppercase;font-weight:700;color:#b0527a;}
+.path{background:var(--card);border-radius:24px;padding:14px 10px 8px;border:2px solid #fff;box-shadow:0 8px 20px rgba(232,82,122,.15);margin-bottom:22px;}
+.path svg{width:100%;height:auto;display:block;}
+.path p{margin:2px 0 6px;font-size:13px;font-weight:600;color:#8a4a62;}
+.btn{font-family:inherit;font-weight:700;font-size:16px;color:#fff;background:var(--pink);border:none;border-radius:999px;padding:14px 26px;cursor:pointer;box-shadow:0 8px 18px rgba(232,82,122,.35);transition:transform .15s;}
+.btn:active{transform:scale(.95);}
+.note{min-height:56px;margin:18px auto 0;max-width:340px;font-size:18px;font-weight:600;line-height:1.5;color:var(--ink);transition:opacity .4s;}
+.foot{margin-top:26px;font-size:13px;letter-spacing:3px;text-transform:uppercase;font-weight:700;color:#b0527a;}
+.love{font-family:'Pacifico',cursive;font-size:24px;color:var(--pink);margin-top:10px;}
+.bob{animation:hop 1.6s ease-in-out infinite;transform-box:fill-box;transform-origin:center bottom;}
+#her .bob{animation-delay:.8s;}
+@keyframes hop{0%,100%{transform:translateY(0)}50%{transform:translateY(-4px)}}
+.mheart{transform-box:fill-box;transform-origin:center;animation:beat 1s ease-in-out infinite;}
+@keyframes beat{0%,100%{transform:scale(1)}50%{transform:scale(1.3)}}
+.lt{font-weight:700;font-size:12px;letter-spacing:2px;text-transform:uppercase;color:#b0527a;margin:0 0 10px;}
+.letters{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin:0 0 24px;}
+.env{font-family:inherit;border:2px solid #fff;background:var(--card);border-radius:16px;padding:10px 2px;cursor:pointer;color:var(--ink);box-shadow:0 6px 14px rgba(232,82,122,.15);}
+.env .ic{font-size:22px;display:block;}
+.env b{display:block;font-size:12px;margin-top:2px;}
+.env small{display:block;font-size:10px;color:#b0527a;font-weight:700;}
+.env.locked{opacity:.55;cursor:default;}
+.env.new{animation:wiggle 1.4s ease-in-out infinite;}
+@keyframes wiggle{0%,100%{transform:rotate(0)}25%{transform:rotate(-4deg)}75%{transform:rotate(4deg)}}
+.modal{position:fixed;inset:0;background:rgba(107,47,71,.45);display:none;align-items:center;justify-content:center;z-index:10;padding:24px;}
+.modal.open{display:flex;}
+.paper{background:#fff8f0;border-radius:22px;padding:28px 24px;max-width:360px;box-shadow:0 20px 40px rgba(0,0,0,.25);text-align:center;}
+.paper h3{font-family:'Pacifico',cursive;font-weight:400;font-size:26px;color:var(--pink);margin:0 0 12px;}
+.paper p{font-size:17px;line-height:1.6;margin:0 0 16px;}
+.trail{position:fixed;pointer-events:none;z-index:5;color:#e8527a;font-size:14px;animation:fadeup .9s forwards;}
+@keyframes fadeup{to{transform:translateY(-26px) scale(.4);opacity:0;}}
+</style>
+</head>
+<body>
+
+<div class="wrap">
+  <div class="eyebrow">Our first year is almost here</div>
+  <h1 id="title">2 days to go</h1>
+  <p class="sub" id="sub">until I'm all yours, in person</p>
+
+  <div class="timer">
+    <div class="unit"><div class="num" id="d">--</div><div class="lbl">Days</div></div>
+    <div class="unit"><div class="num" id="h">--</div><div class="lbl">Hours</div></div>
+    <div class="unit"><div class="num" id="m">--</div><div class="lbl">Mins</div></div>
+    <div class="unit"><div class="num" id="s">--</div><div class="lbl">Secs</div></div>
+  </div>
+
+  <div class="path">
+    <svg viewBox="0 0 340 150" role="img" aria-label="Two little characters walking toward each other, one from Raipur and one from Darjeeling">
+      <path d="M20 120 L320 120" fill="none" stroke="#e8527a" stroke-width="3" stroke-linecap="round" stroke-dasharray="1 9" opacity=".7"/>
+      
+      
+      <text x="40" y="136" text-anchor="middle" font-size="13" font-weight="700" fill="#8a4a62" font-family="Quicksand,sans-serif">Raipur</text>
+      <text x="300" y="136" text-anchor="middle" font-size="13" font-weight="700" fill="#8a4a62" font-family="Quicksand,sans-serif">Darjeeling</text>
+      <g id="him" transform="translate(50,88)"><g class="bob"><ellipse cx="-9" cy="26" rx="8" ry="4" fill="#c98a6a"/><ellipse cx="9" cy="26" rx="8" ry="4" fill="#c98a6a"/><circle r="24" fill="#ffcfae"/><path d="M-24 -4 A24 24 0 0 1 24 -4 Q10 -16 0 -12 Q-10 -16 -24 -4 Z" fill="#4a2e2a"/><circle cx="-8" cy="2" r="2.6" fill="#4a2e2a"/><circle cx="8" cy="2" r="2.6" fill="#4a2e2a"/><circle cx="-14" cy="9" r="4" fill="#ff9fb5" opacity=".7"/><circle cx="14" cy="9" r="4" fill="#ff9fb5" opacity=".7"/><path d="M-6 10 Q0 16 6 10" stroke="#4a2e2a" fill="none" stroke-width="2" stroke-linecap="round"/></g></g><g id="her" transform="translate(290,88)"><g class="bob"><ellipse cx="-9" cy="26" rx="8" ry="4" fill="#c98a6a"/><ellipse cx="9" cy="26" rx="8" ry="4" fill="#c98a6a"/><path d="M-27 -2 A27 27 0 0 1 27 -2 L27 24 Q20 28 20 10 L-20 10 Q-20 28 -27 24 Z" fill="#5b3425"/><circle r="24" fill="#ffd9bd"/><path d="M-24 -4 A24 24 0 0 1 24 -4 Q8 -14 0 -10 Q-8 -14 -24 -4 Z" fill="#5b3425"/><circle cx="-8" cy="2" r="2.6" fill="#4a2e2a"/><circle cx="8" cy="2" r="2.6" fill="#4a2e2a"/><circle cx="-14" cy="9" r="4" fill="#ff9fb5" opacity=".7"/><circle cx="14" cy="9" r="4" fill="#ff9fb5" opacity=\".7\"/><path d="M-6 10 Q0 16 6 10" stroke="#4a2e2a" fill="none" stroke-width="2" stroke-linecap="round"/><circle cx="15" cy="-20" r="4" fill="#e8527a"/><ellipse cx="8" cy="-21" rx="5" ry="3" fill="#e8527a"/><ellipse cx="22" cy="-21" rx="5" ry="3" fill="#e8527a"/></g></g><g id="mh" opacity="0" transform="translate(170,42)"><path class="mheart" d="M0 8 C-14 -4 -10 -14 0 -6 C10 -14 14 -4 0 8 Z" fill="#e8527a"/></g>
+    </svg>
+    <p>every day, we walk a little closer</p>
+  </div>
+
+  <p class="lt">Love letters, unlocked one day at a time</p>
+  <div class="letters" id="letters"></div>
+
+  <button class="btn" id="noteBtn">Tap for a little love note</button>
+  <div class="note" id="note">&nbsp;</div>
+
+  <div class="modal" id="modal"><div class="paper"><h3 id="mTitle"></h3><p id="mText"></p><button class="btn" id="mClose">Close</button></div></div>
+  <div class="foot">25 october · our first year</div>
+  <div class="love">I love you, my honey</div>
+</div>
+
+<script>
+const target=new Date('2026-10-25T00:00:00');
+const windowMs=30*86400000;
+const $=id=>document.getElementById(id);
+
+function planePos(t){
+  const p0=[40,110],p1=[170,10],p2=[300,110];
+  const x=(1-t)*(1-t)*p0[0]+2*(1-t)*t*p1[0]+t*t*p2[0];
+  const y=(1-t)*(1-t)*p0[1]+2*(1-t)*t*p1[1]+t*t*p2[1];
+  const dx=2*(1-t)*(p1[0]-p0[0])+2*t*(p2[0]-p1[0]);
+  const dy=2*(1-t)*(p1[1]-p0[1])+2*t*(p2[1]-p1[1]);
+  return {x,y,a:Math.atan2(dy,dx)*180/Math.PI};
+}
+
+function moveChars(t){
+  $('him').setAttribute('transform','translate('+(50+t*95)+',88)');
+  $('her').setAttribute('transform','translate('+(290-t*95)+',88)');
+  $('mh').setAttribute('opacity',Math.max(0,(t-0.75)/0.25));
+}
+
+function tick(){
+  let diff=target-new Date();
+  if(diff<0)diff=0;
+  const d=Math.floor(diff/86400000);
+  const h=Math.floor(diff%86400000/3600000);
+  const m=Math.floor(diff%3600000/60000);
+  const s=Math.floor(diff%60000/1000);
+  $('d').textContent=d;
+  $('h').textContent=String(h).padStart(2,'0');
+  $('m').textContent=String(m).padStart(2,'0');
+  $('s').textContent=String(s).padStart(2,'0');
+  if(diff===0){
+    $('title').textContent="Today's the day!";
+    $('sub').textContent='our first year, together at last';
+  }else{
+    $('title').textContent=d+(d===1?' day to go':' days to go');
+  }
+  const t=Math.min(1,Math.max(0,(windowMs-diff)/windowMs));
+  moveChars(t);
+  
+}
+tick();
+setInterval(tick,1000);
+
+function spawn(left,size,dur){
+  const h=document.createElement('div');
+  h.className='heart';
+  h.textContent='♥';
+  h.style.left=left+'vw';
+  h.style.fontSize=size+'px';
+  h.style.animationDuration=dur+'s';
+  document.body.appendChild(h);
+  setTimeout(()=>h.remove(),dur*1000+200);
+}
+function drift(){spawn(Math.random()*95,14+Math.random()*26,7+Math.random()*6);}
+for(let i=0;i<10;i++)setTimeout(drift,i*500);
+setInterval(drift,900);
+
+const letters=[
+  {d:'2026-10-22',tag:'22 oct',t:'Three sleeps to go',x:"I've been smiling at my phone all day, my honey. Every call, every good morning, every silly fight, I'd choose all of it again."},
+  {d:'2026-10-23',tag:'23 oct',t:'Two more sleeps',x:"I'm packing my bag and my heart at the same time. Save me the spot right next to you."},
+  {d:'2026-10-24',tag:'24 oct',t:'Tomorrow!',x:"Tonight I'll fall asleep counting the hours until I see you. I can't even explain how much I miss you."},
+  {d:'2026-10-25',tag:'25 oct',t:'Happy first year',x:"One year of distance, and today the miles finally mean nothing. I love you endlessly, my honey."}
+];
+function buildLetters(){
+  const w=$('letters');
+  w.innerHTML='';
+  let last=-1;
+  letters.forEach((l,i)=>{ if(new Date(l.d+'T00:00:00')<=new Date()) last=i; });
+  letters.forEach((l,i)=>{
+    const open=i<=last;
+    const b=document.createElement('button');
+    b.className='env'+(open?'':' locked')+(i===last?' new':'');
+    b.innerHTML='<span class="ic">'+(open?'✉':'🔒')+'</span><b>'+l.tag+'</b><small>'+(open?'tap to read':'locked')+'</small>';
+    if(open)b.onclick=()=>{$('mTitle').textContent=l.t;$('mText').textContent=l.x;$('modal').classList.add('open');};
+    w.appendChild(b);
+  });
+}
+buildLetters();
+setInterval(buildLetters,60000);
+$('mClose').onclick=()=>$('modal').classList.remove('open');
+$('modal').onclick=e=>{if(e.target.id==='modal')$('modal').classList.remove('open');};
+
+let lastTrail=0;
+document.addEventListener('pointermove',e=>{
+  const n=Date.now();
+  if(n-lastTrail<90)return;
+  lastTrail=n;
+  const h=document.createElement('div');
+  h.className='trail';
+  h.textContent='♥';
+  h.style.left=e.clientX+'px';
+  h.style.top=e.clientY+'px';
+  document.body.appendChild(h);
+  setTimeout(()=>h.remove(),900);
+});
+
+const notes=[
+  "Two more sleeps and then it's you and me.",
+  "Every mile only made me love you more.",
+  "I'm counting hours like they're birthdays.",
+  "My favorite place in the world is next to you.",
+  "Almost time to hold you for real.",
+  "You're my favorite hello, and my hardest goodbye.",
+  "One year down, a whole lifetime of us to go."
+];
+let i=0;
+$('noteBtn').onclick=()=>{
+  const n=$('note');
+  n.style.opacity=0;
+  setTimeout(()=>{n.textContent=notes[i%notes.length];i++;n.style.opacity=1;},200);
+  for(let k=0;k<8;k++)spawn(30+Math.random()*40,18+Math.random()*20,3+Math.random()*2);
+};
+</script>
+</body>
+</html>
